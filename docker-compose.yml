@@ -33,7 +33,7 @@ services:
         '-path',
         '/database',
         '-database',
-        'postgres://postgres:qwerty@postgresdb:5432/shop-db?sslmode=disable',
+        'postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgresdb:5432/${POSTGRES_DB}?sslmode=disable',
         'up',
       ]
     depends_on:
