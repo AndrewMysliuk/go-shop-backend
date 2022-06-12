@@ -45,10 +45,10 @@ func main() {
 	db, err := database.NewPostgresConnection(database.ConnectionInfo{
 		Host:     cfg.DB.Host,
 		Port:     cfg.DB.Port,
-		Username: cfg.DB.Username,
-		DBName:   cfg.DB.Name,
+		Username: cfg.Postgres.User,
+		DBName:   cfg.Postgres.Db,
 		SSLMode:  cfg.DB.SSLMode,
-		Password: cfg.DB.Password,
+		Password: cfg.Postgres.Password,
 	})
 	if err != nil {
 		logrus.Fatal(err)

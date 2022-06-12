@@ -1,0 +1,45 @@
+version: '3.8'
+services:
+  postgresdb:
+    image: postgres:latest
+    container_name: postgresdb
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - '5436:5432'
+    volumes:
+      - data:/var/lib/postgresql/data
+
+  backend-app:
+    container_name: backend-app
+    command: ./wait-for-postgres.sh postgresdb ./backend-app
+    build: ./
+    env_file: .env
+    depends_on:
+      - postgresdb
+    restart: on-failure
+    tty: true
+    ports:
+      - '3000:3000'
+
+  migrate:
+    container_name: migration
+    image: migrate/migrate
+    volumes:
+      - ./schema:/database
+    command:
+      [
+        '-path',
+        '/database',
+        '-database',
+        'postgres://postgres:qwerty@postgresdb:5432/shop-db?sslmode=disable',
+        'up',
+      ]
+    depends_on:
+      - postgresdb
+      - backend-app
+    restart: on-failure
+
+volumes:
+  data:

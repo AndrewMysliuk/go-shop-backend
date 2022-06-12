@@ -6,20 +6,24 @@ import (
 )
 
 type Config struct {
-	DB Postgres
+	DB       DB
+	Postgres Postgres
 
 	Server struct {
 		Port int `mapstructure:"port"`
 	} `mapstructure:"server"`
 }
 
+type DB struct {
+	Host    string `envconfig:"DB_HOST"`
+	Port    int    `envconfig:"DB_PORT"`
+	SSLMode string `envconfig:"DB_SSLMODE"`
+}
+
 type Postgres struct {
-	Host     string
-	Port     int
-	Username string
-	Name     string
-	SSLMode  string
-	Password string
+	User     string `envconfig:"POSTGRES_USER"`
+	Db       string `envconfig:"POSTGRES_DB"`
+	Password string `envconfig:"POSTGRES_PASSWORD"`
 }
 
 func New(folder, filename string) (*Config, error) {
@@ -37,6 +41,10 @@ func New(folder, filename string) (*Config, error) {
 	}
 
 	if err := envconfig.Process("db", &cfg.DB); err != nil {
+		return nil, err
+	}
+
+	if err := envconfig.Process("postgres", &cfg.Postgres); err != nil {
 		return nil, err
 	}
 
