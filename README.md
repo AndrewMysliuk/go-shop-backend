@@ -9,5 +9,5 @@
 
 ### API Endpoint local - localhost:3000
 
-<!-- ### Swagger UI
-```http://localhost:8080/swagger/index.html#/``` -->
+### Swagger UI
+```http://localhost:3000/swagger/index.html#/```

@@ -20,7 +20,7 @@ func NewCategoriesListPostgres(db *sql.DB) *CategoriesListPostgres {
 	}
 }
 
-func (r *CategoriesListPostgres) Create(list domain.CategoriesList) (string, error) {
+func (r *CategoriesListPostgres) Create(list domain.CreateCategoryInput) (string, error) {
 	tx, err := r.db.Begin()
 	if err != nil {
 		return "", err

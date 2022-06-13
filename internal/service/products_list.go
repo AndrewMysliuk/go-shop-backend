@@ -15,7 +15,7 @@ func NewProductsListService(repo repository.ProductsList) *ProductsListService {
 	}
 }
 
-func (s *ProductsListService) Create(list domain.ProductsList) (string, error) {
+func (s *ProductsListService) Create(list domain.CreateProductInput) (string, error) {
 	return s.repo.Create(list)
 }
 

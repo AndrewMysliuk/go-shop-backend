@@ -15,7 +15,7 @@ func NewCategoriesListService(repo repository.CategoriesList) *CategoriesListSer
 	}
 }
 
-func (s *CategoriesListService) Create(list domain.CategoriesList) (string, error) {
+func (s *CategoriesListService) Create(list domain.CreateCategoryInput) (string, error) {
 	return s.repo.Create(list)
 }
 

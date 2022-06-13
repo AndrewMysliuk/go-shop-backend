@@ -29,6 +29,16 @@ func init() {
 	logrus.SetLevel(logrus.InfoLevel)
 }
 
+// @title CRUD API Go Shop Backend
+// @version 1.0
+// @description API for frontend cliend
+
+// @host localhost:3000
+// @BasePath /
+
+// @securityDefinitions.apikey ApiKeyAuth
+// @in header
+// @name Authorization
 func main() {
 	err := godotenv.Load()
 	if err != nil {

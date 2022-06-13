@@ -16,21 +16,21 @@ func NewAuthPostgres(db *sql.DB) *AuthPostgres {
 	return &AuthPostgres{db: db}
 }
 
-func (r *AuthPostgres) CreateUser(user domain.User) (string, error) {
+func (r *AuthPostgres) CreateUser(user domain.UserSignUp) (string, error) {
 	tx, err := r.db.Begin()
 	if err != nil {
 		return "", err
 	}
 
 	var userId string
-	row, err := tx.Prepare("INSERT INTO users(id, name, sername, email, phone, password_hash, created_at) values($1, $2, $3, $4, $5, $6, $7) RETURNING id")
+	row, err := tx.Prepare("INSERT INTO users(id, name, surname, email, phone, password_hash, created_at) values($1, $2, $3, $4, $5, $6, $7) RETURNING id")
 	if err != nil {
 		return "", err
 	}
 
 	defer row.Close()
 
-	if err = row.QueryRow(uuid.NewString(), user.Name, user.Sername, user.Email, user.Phone, user.Password, time.Now()).Scan(&userId); err != nil {
+	if err = row.QueryRow(uuid.NewString(), user.Name, user.Surname, user.Email, user.Phone, user.Password, time.Now()).Scan(&userId); err != nil {
 		return "", err
 	}
 

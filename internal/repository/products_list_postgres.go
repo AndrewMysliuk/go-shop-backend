@@ -20,7 +20,7 @@ func NewProductsListPostgres(db *sql.DB) *ProductsListPostgres {
 	}
 }
 
-func (r *ProductsListPostgres) Create(list domain.ProductsList) (string, error) {
+func (r *ProductsListPostgres) Create(list domain.CreateProductInput) (string, error) {
 	tx, err := r.db.Begin()
 	if err != nil {
 		return "", err

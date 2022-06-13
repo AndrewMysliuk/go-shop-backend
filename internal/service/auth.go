@@ -32,7 +32,7 @@ func NewAuthService(repo repository.Authorization) *Auth {
 	}
 }
 
-func (a *Auth) CreateUser(user domain.User) (string, error) {
+func (a *Auth) CreateUser(user domain.UserSignUp) (string, error) {
 	user.Password = generatePasswordHash(user.Password)
 	return a.repo.CreateUser(user)
 }

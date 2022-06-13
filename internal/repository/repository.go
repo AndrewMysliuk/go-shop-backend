@@ -7,12 +7,12 @@ import (
 )
 
 type Authorization interface {
-	CreateUser(user domain.User) (string, error)
+	CreateUser(user domain.UserSignUp) (string, error)
 	GetUser(email, password string) (string, error)
 }
 
 type CategoriesList interface {
-	Create(list domain.CategoriesList) (string, error)
+	Create(list domain.CreateCategoryInput) (string, error)
 	GetAll() ([]domain.CategoriesList, error)
 	GetById(listId string) (domain.CategoriesList, error)
 	Update(itemId string, input domain.UpdateCategoryInput) error
@@ -20,7 +20,7 @@ type CategoriesList interface {
 }
 
 type ProductsList interface {
-	Create(list domain.ProductsList) (string, error)
+	Create(list domain.CreateProductInput) (string, error)
 	GetAll() ([]domain.ProductsList, error)
 	GetById(listId string) (domain.ProductsList, error)
 	Update(itemId string, input domain.UpdateProductInput) error

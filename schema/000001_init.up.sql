@@ -18,7 +18,7 @@ CREATE TABLE "categories" (
 CREATE TABLE "users" (
   "id" uuid PRIMARY KEY,
   "name" varchar(255) NOT NULL,
-  "sername" varchar(255) NOT NULL,
+  "surname" varchar(255) NOT NULL,
   "email" varchar(255) NOT NULL,
   "phone" varchar(255) NOT NULL,
   "password_hash" varchar(255) NOT NULL,
