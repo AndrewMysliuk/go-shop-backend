@@ -160,7 +160,7 @@ definitions:
       status:
         type: string
     type: object
-host: localhost:3000
+host: 104.248.247.198:3000
 info:
   contact: {}
   description: API for frontend cliend
