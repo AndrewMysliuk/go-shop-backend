@@ -1,8 +1,10 @@
 package handler
 
 import (
-	"github.com/AndrewMislyuk/go-shop-backend/internal/domain"
 	"net/http"
+	"strings"
+
+	"github.com/AndrewMislyuk/go-shop-backend/internal/domain"
 
 	"github.com/gin-gonic/gin"
 )
@@ -75,4 +77,30 @@ func (h *Handler) signIn(c *gin.Context) {
 	c.JSON(http.StatusOK, getUserToken{
 		Token: token,
 	})
+}
+
+// @Summary GetMe
+// @Security ApiKeyAuth
+// @Tags Auth
+// @Description user get me
+// @ID get-me
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} domain.User
+// @Failure 400,404 {object} errorResponse
+// @Failure 500 {object} errorResponse
+// @Failure default {object} errorResponse
+// @Router /auth/get-me [get]
+func (h *Handler) getMe(c *gin.Context) {
+	header := c.GetHeader(authorizationHeader)
+
+	headerParts := strings.Split(header, " ")
+
+	user, err := h.userService.GetMe(headerParts[1])
+	if err != nil {
+		newErrorResponse(c, http.StatusUnauthorized, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, user)
 }

@@ -8,7 +8,7 @@ import (
 type User interface {
 	CreateUser(user domain.UserSignUp) (string, error)
 	GenerateToken(email, password string) (string, error)
-	ParseToken(token string) (string, error)
+	GetMe(token string) (domain.User, error)
 }
 
 type CategoriesList interface {

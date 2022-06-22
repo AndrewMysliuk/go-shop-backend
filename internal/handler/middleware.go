@@ -11,6 +11,7 @@ import (
 const (
 	authorizationHeader = "Authorization"
 	userCtx             = "userId"
+	userRole            = "userRole"
 )
 
 func (h *Handler) loggingMiddleware(c *gin.Context) {
@@ -30,11 +31,26 @@ func (h *Handler) userIdentify(c *gin.Context) {
 		return
 	}
 
-	userId, err := h.userService.ParseToken(headerParts[1])
+	user, err := h.userService.GetMe(headerParts[1])
 	if err != nil {
 		newErrorResponse(c, http.StatusUnauthorized, err.Error())
 		return
 	}
 
-	c.Set(userCtx, userId)
+	c.Set(userCtx, user.Id)
+	c.Set(userRole, user.Role)
+}
+
+func (h *Handler) userIsAdmin(c *gin.Context) {
+	role, exist := c.Get(userRole)
+	if !exist {
+		newErrorResponse(c, http.StatusUnauthorized, "you are unauthorized")
+		return
+	}
+
+	roleStr := role.(string)
+	if roleStr != "ADMIN" {
+		newErrorResponse(c, http.StatusUnauthorized, "you don't have admin role")
+		return
+	}
 }

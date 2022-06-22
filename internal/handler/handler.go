@@ -12,7 +12,7 @@ import (
 type User interface {
 	CreateUser(user domain.UserSignUp) (string, error)
 	GenerateToken(email, password string) (string, error)
-	ParseToken(token string) (string, error)
+	GetMe(token string) (domain.User, error)
 }
 
 type Categories interface {
@@ -56,6 +56,7 @@ func (h *Handler) InitRouter() *gin.Engine {
 
 		auth.POST("/sign-up", h.signUp)
 		auth.POST("/sign-in", h.signIn)
+		auth.GET("/get-me",  h.userIdentify, h.getMe)
 	}
 
 	api := router.Group("/api")
@@ -64,20 +65,20 @@ func (h *Handler) InitRouter() *gin.Engine {
 
 		categories := api.Group("/categories")
 		{
-			categories.POST("/", h.userIdentify, h.createCategory)
+			categories.POST("/", h.userIdentify, h.userIsAdmin, h.createCategory)
 			categories.GET("/", h.getAllCategories)
 			categories.GET("/:id", h.getCategoryById)
-			categories.PUT("/:id", h.userIdentify, h.updateCategory)
-			categories.DELETE("/:id", h.userIdentify, h.deleteCategory)
+			categories.PUT("/:id", h.userIdentify, h.userIsAdmin, h.updateCategory)
+			categories.DELETE("/:id", h.userIdentify, h.userIsAdmin, h.deleteCategory)
 		}
 
 		products := api.Group("/products")
 		{
-			products.POST("/", h.userIdentify, h.createProduct)
+			products.POST("/", h.userIdentify, h.userIsAdmin, h.createProduct)
 			products.GET("/", h.getAllProducts)
 			products.GET("/:id", h.getProductById)
-			products.PUT("/:id", h.userIdentify, h.updateProduct)
-			products.DELETE("/:id", h.userIdentify, h.deleteProduct)
+			products.PUT("/:id", h.userIdentify, h.userIsAdmin, h.updateProduct)
+			products.DELETE("/:id", h.userIdentify, h.userIsAdmin, h.deleteProduct)
 		}
 	}
 

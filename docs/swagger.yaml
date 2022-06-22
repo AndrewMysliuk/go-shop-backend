@@ -84,6 +84,35 @@ definitions:
     - price
     - title
     type: object
+  domain.User:
+    properties:
+      created_at:
+        type: string
+      email:
+        type: string
+      id:
+        type: string
+      name:
+        minLength: 1
+        type: string
+      password:
+        minLength: 5
+        type: string
+      phone:
+        type: string
+      role:
+        type: string
+      surname:
+        minLength: 1
+        type: string
+    required:
+    - email
+    - name
+    - password
+    - phone
+    - role
+    - surname
+    type: object
   domain.UserSignIn:
     properties:
       email:
@@ -106,6 +135,8 @@ definitions:
         type: string
       phone:
         type: string
+      role:
+        type: string
       surname:
         minLength: 1
         type: string
@@ -114,6 +145,7 @@ definitions:
     - name
     - password
     - phone
+    - role
     - surname
     type: object
   handler.errorResponse:
@@ -555,6 +587,40 @@ paths:
       summary: Update Product
       tags:
       - Product
+  /auth/get-me:
+    get:
+      consumes:
+      - application/json
+      description: user get me
+      operationId: get-me
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.User'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: GetMe
+      tags:
+      - Auth
   /auth/sign-in:
     post:
       consumes:

@@ -19,7 +19,7 @@ const (
 
 type tokenClaims struct {
 	jwt.StandardClaims
-	UserId string `json:"user_id"`
+	User domain.User `json:"data"`
 }
 
 type Auth struct {
@@ -38,7 +38,7 @@ func (a *Auth) CreateUser(user domain.UserSignUp) (string, error) {
 }
 
 func (a *Auth) GenerateToken(email, password string) (string, error) {
-	userId, err := a.repo.GetUser(email, generatePasswordHash(password))
+	user, err := a.repo.GetUser(email, generatePasswordHash(password))
 	if err != nil {
 		return "", err
 	}
@@ -48,30 +48,30 @@ func (a *Auth) GenerateToken(email, password string) (string, error) {
 			ExpiresAt: time.Now().Add(tokenTTL).Unix(),
 			IssuedAt:  time.Now().Unix(),
 		},
-		userId,
+		user,
 	})
 
 	return token.SignedString([]byte(signingKey))
 }
 
-func (a *Auth) ParseToken(accessToken string) (string, error) {
+func (a *Auth) GetMe(accessToken string) (domain.User, error) {
 	token, err := jwt.ParseWithClaims(accessToken, &tokenClaims{}, func(t *jwt.Token) (interface{}, error) {
 		if _, ok := t.Method.(*jwt.SigningMethodHMAC); !ok {
-			return nil, errors.New("invalid signing method")
+			return domain.User{}, errors.New("invalid signing method")
 		}
 
 		return []byte(signingKey), nil
 	})
 	if err != nil {
-		return "", err
+		return domain.User{}, err
 	}
 
 	claims, ok := token.Claims.(*tokenClaims)
 	if !ok {
-		return "", errors.New("token claims are not of type *tokenClaims")
+		return domain.User{}, errors.New("token claims are not of type *tokenClaims")
 	}
 
-	return claims.UserId, nil
+	return claims.User, nil
 }
 
 func generatePasswordHash(password string) string {

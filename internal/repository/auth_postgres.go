@@ -23,14 +23,14 @@ func (r *AuthPostgres) CreateUser(user domain.UserSignUp) (string, error) {
 	}
 
 	var userId string
-	row, err := tx.Prepare("INSERT INTO users(id, name, surname, email, phone, password_hash, created_at) values($1, $2, $3, $4, $5, $6, $7) RETURNING id")
+	row, err := tx.Prepare("INSERT INTO users(id, name, surname, email, phone, role, password_hash, created_at) values($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id")
 	if err != nil {
 		return "", err
 	}
 
 	defer row.Close()
 
-	if err = row.QueryRow(uuid.NewString(), user.Name, user.Surname, user.Email, user.Phone, user.Password, time.Now()).Scan(&userId); err != nil {
+	if err = row.QueryRow(uuid.NewString(), user.Name, user.Surname, user.Email, user.Phone, user.Role, user.Password, time.Now()).Scan(&userId); err != nil {
 		return "", err
 	}
 
@@ -42,18 +42,18 @@ func (r *AuthPostgres) CreateUser(user domain.UserSignUp) (string, error) {
 	return userId, nil
 }
 
-func (r *AuthPostgres) GetUser(email, password string) (string, error) {
-	var userId string
-	rows, err := r.db.Query("SELECT id FROM users WHERE email = $1 AND password_hash = $2", email, password)
+func (r *AuthPostgres) GetUser(email, password string) (domain.User, error) {
+	var userData domain.User
+	rows, err := r.db.Query("SELECT * FROM users WHERE email = $1 AND password_hash = $2", email, password)
 	if err != nil {
-		return "", err
+		return userData, err
 	}
 
 	for rows.Next() {
-		if err := rows.Scan(&userId); err != nil {
-			return "", err
+		if err := rows.Scan(&userData.Id, &userData.Name, &userData.Surname, &userData.Email, &userData.Phone, &userData.Role, &userData.Password, &userData.CreatedAt); err != nil {
+			return userData, err
 		}
 	}
 
-	return userId, rows.Err()
+	return userData, rows.Err()
 }

@@ -608,6 +608,59 @@ const docTemplate = `{
                 }
             }
         },
+        "/auth/get-me": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "user get me",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "GetMe",
+                "operationId": "get-me",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/domain.User"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorResponse"
+                        }
+                    },
+                    "default": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/auth/sign-in": {
             "post": {
                 "description": "user sign-in",
@@ -854,6 +907,46 @@ const docTemplate = `{
                 }
             }
         },
+        "domain.User": {
+            "type": "object",
+            "required": [
+                "email",
+                "name",
+                "password",
+                "phone",
+                "role",
+                "surname"
+            ],
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "password": {
+                    "type": "string",
+                    "minLength": 5
+                },
+                "phone": {
+                    "type": "string"
+                },
+                "role": {
+                    "type": "string"
+                },
+                "surname": {
+                    "type": "string",
+                    "minLength": 1
+                }
+            }
+        },
         "domain.UserSignIn": {
             "type": "object",
             "required": [
@@ -876,6 +969,7 @@ const docTemplate = `{
                 "name",
                 "password",
                 "phone",
+                "role",
                 "surname"
             ],
             "properties": {
@@ -891,6 +985,9 @@ const docTemplate = `{
                     "minLength": 5
                 },
                 "phone": {
+                    "type": "string"
+                },
+                "role": {
                     "type": "string"
                 },
                 "surname": {
