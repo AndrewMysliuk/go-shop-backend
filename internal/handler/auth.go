@@ -34,12 +34,14 @@ func (h *Handler) signUp(c *gin.Context) {
 
 	if err := c.BindJSON(&input); err != nil {
 		newErrorResponse(c, http.StatusBadRequest, err.Error())
+
 		return
 	}
 
 	id, err := h.userService.CreateUser(input)
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+
 		return
 	}
 
@@ -65,12 +67,14 @@ func (h *Handler) signIn(c *gin.Context) {
 
 	if err := c.BindJSON(&input); err != nil {
 		newErrorResponse(c, http.StatusBadRequest, err.Error())
+
 		return
 	}
 
 	token, err := h.userService.GenerateToken(input.Email, input.Password)
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+
 		return
 	}
 
@@ -99,6 +103,7 @@ func (h *Handler) getMe(c *gin.Context) {
 	user, err := h.userService.GetMe(headerParts[1])
 	if err != nil {
 		newErrorResponse(c, http.StatusUnauthorized, err.Error())
+
 		return
 	}
 

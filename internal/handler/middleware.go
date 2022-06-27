@@ -22,18 +22,21 @@ func (h *Handler) userIdentify(c *gin.Context) {
 	header := c.GetHeader(authorizationHeader)
 	if header == "" {
 		newErrorResponse(c, http.StatusUnauthorized, "empty auth header")
+
 		return
 	}
 
 	headerParts := strings.Split(header, " ")
 	if len(headerParts) != 2 {
 		newErrorResponse(c, http.StatusUnauthorized, "invalid auth header")
+
 		return
 	}
 
 	user, err := h.userService.GetMe(headerParts[1])
 	if err != nil {
 		newErrorResponse(c, http.StatusUnauthorized, err.Error())
+
 		return
 	}
 
@@ -45,12 +48,14 @@ func (h *Handler) userIsAdmin(c *gin.Context) {
 	role, exist := c.Get(userRole)
 	if !exist {
 		newErrorResponse(c, http.StatusUnauthorized, "you are unauthorized")
+
 		return
 	}
 
 	roleStr := role.(string)
 	if roleStr != "ADMIN" {
 		newErrorResponse(c, http.StatusUnauthorized, "you don't have admin role")
+
 		return
 	}
 }

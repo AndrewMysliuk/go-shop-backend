@@ -48,6 +48,7 @@ func (r *AuthPostgres) GetUser(email, password string) (domain.User, error) {
 	if err != nil {
 		return userData, err
 	}
+	defer rows.Close()
 
 	for rows.Next() {
 		if err := rows.Scan(&userData.Id, &userData.Name, &userData.Surname, &userData.Email, &userData.Phone, &userData.Role, &userData.Password, &userData.CreatedAt); err != nil {

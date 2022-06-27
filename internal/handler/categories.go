@@ -32,12 +32,14 @@ func (h *Handler) createCategory(c *gin.Context) {
 	var input domain.CreateCategoryInput
 	if err := c.BindJSON(&input); err != nil {
 		newErrorResponse(c, http.StatusBadRequest, err.Error())
+
 		return
 	}
 
 	id, err := h.categoriesService.Create(input)
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+
 		return
 	}
 
@@ -61,6 +63,7 @@ func (h *Handler) getAllCategories(c *gin.Context) {
 	lists, err := h.categoriesService.GetAll()
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+
 		return
 	}
 
@@ -87,6 +90,7 @@ func (h *Handler) getCategoryById(c *gin.Context) {
 	category, err := h.categoriesService.GetById(category_id)
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+
 		return
 	}
 
@@ -115,11 +119,13 @@ func (h *Handler) updateCategory(c *gin.Context) {
 	var input domain.UpdateCategoryInput
 	if err := c.BindJSON(&input); err != nil {
 		newErrorResponse(c, http.StatusBadRequest, err.Error())
+
 		return
 	}
 
 	if err := h.categoriesService.Update(category_id, input); err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+
 		return
 	}
 
@@ -147,6 +153,7 @@ func (h *Handler) deleteCategory(c *gin.Context) {
 	err := h.categoriesService.Delete(category_id)
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+
 		return
 	}
 

@@ -51,6 +51,7 @@ func (r *ProductsListPostgres) GetAll() ([]domain.ProductsList, error) {
 	if err != nil {
 		return nil, err
 	}
+	defer rows.Close()
 
 	products := make([]domain.ProductsList, 0)
 	for rows.Next() {
@@ -70,6 +71,7 @@ func (r *ProductsListPostgres) GetById(listId string) (domain.ProductsList, erro
 	if err != nil {
 		return domain.ProductsList{}, err
 	}
+	defer rows.Close()
 
 	var product domain.ProductsList
 	for rows.Next() {

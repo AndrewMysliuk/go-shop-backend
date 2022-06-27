@@ -51,6 +51,7 @@ func (r *CategoriesListPostgres) GetAll() ([]domain.CategoriesList, error) {
 	if err != nil {
 		return nil, err
 	}
+	defer rows.Close()
 
 	categories := make([]domain.CategoriesList, 0)
 	for rows.Next() {
@@ -70,6 +71,7 @@ func (r *CategoriesListPostgres) GetById(listId string) (domain.CategoriesList, 
 	if err != nil {
 		return domain.CategoriesList{}, err
 	}
+	defer rows.Close()
 
 	var category domain.CategoriesList
 	for rows.Next() {
