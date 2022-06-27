@@ -14,7 +14,7 @@ linters:
     - gocognit
     - gocyclo
     - gofmt
-    - gofumpt
+    # - gofumpt
     - goheader
     - goimports
     - gomodguard
@@ -48,8 +48,8 @@ linters:
     - bodyclose
     # - dupl
     # - godot
-    - funlen
-    - wsl
+    # - funlen
+    # - wsl
     # - gochecknoglobals
     # - gochecknoinits
     # - goconst

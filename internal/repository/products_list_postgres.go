@@ -149,6 +149,7 @@ func (r *ProductsListPostgres) Update(itemId string, input domain.UpdateProductI
 	args = append(args, itemId)
 
 	_, err := r.db.Exec(query, args...)
+
 	return err
 }
 

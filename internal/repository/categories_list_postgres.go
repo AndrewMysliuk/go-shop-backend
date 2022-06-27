@@ -100,6 +100,7 @@ func (r *CategoriesListPostgres) Update(itemId string, inp domain.UpdateCategory
 	args = append(args, itemId)
 
 	_, err := r.db.Exec(query, args...)
+
 	return err
 }
 

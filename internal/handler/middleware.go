@@ -52,7 +52,13 @@ func (h *Handler) userIsAdmin(c *gin.Context) {
 		return
 	}
 
-	roleStr := role.(string)
+	roleStr, ok := role.(string)
+	if !ok {
+		newErrorResponse(c, http.StatusUnauthorized, "type error")
+
+		return
+	}
+
 	if roleStr != "ADMIN" {
 		newErrorResponse(c, http.StatusUnauthorized, "you don't have admin role")
 
