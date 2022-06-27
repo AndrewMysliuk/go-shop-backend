@@ -6,7 +6,7 @@
         "contact": {},
         "version": "1.0"
     },
-    "host": "localhost:3000",
+    "host": "104.248.247.198:3000",
     "basePath": "/",
     "paths": {
         "/api/categories/": {
