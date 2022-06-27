@@ -6,7 +6,7 @@
         "contact": {},
         "version": "1.0"
     },
-    "host": "104.248.247.198:3000",
+    "host": "localhost:3000",
     "basePath": "/",
     "paths": {
         "/api/categories/": {
@@ -807,10 +807,15 @@
             "required": [
                 "category_id",
                 "price",
-                "title"
+                "subtype",
+                "title",
+                "type"
             ],
             "properties": {
                 "category_id": {
+                    "type": "string"
+                },
+                "description": {
                     "type": "string"
                 },
                 "image": {
@@ -825,7 +830,13 @@
                 "sale_old_price": {
                     "type": "integer"
                 },
+                "subtype": {
+                    "type": "string"
+                },
                 "title": {
+                    "type": "string"
+                },
+                "type": {
                     "type": "string"
                 }
             }
@@ -835,13 +846,18 @@
             "required": [
                 "category_id",
                 "price",
-                "title"
+                "subtype",
+                "title",
+                "type"
             ],
             "properties": {
                 "category_id": {
                     "type": "string"
                 },
                 "created_at": {
+                    "type": "string"
+                },
+                "description": {
                     "type": "string"
                 },
                 "id": {
@@ -859,7 +875,13 @@
                 "sale_old_price": {
                     "type": "integer"
                 },
+                "subtype": {
+                    "type": "string"
+                },
                 "title": {
+                    "type": "string"
+                },
+                "type": {
                     "type": "string"
                 }
             }
@@ -877,11 +899,16 @@
             "required": [
                 "category_id",
                 "price",
-                "title"
+                "subtype",
+                "title",
+                "type"
             ],
             "properties": {
                 "category_id": {
-                    "type": "integer"
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
                 },
                 "image": {
                     "type": "string"
@@ -895,7 +922,13 @@
                 "sale_old_price": {
                     "type": "integer"
                 },
+                "subtype": {
+                    "type": "string"
+                },
                 "title": {
+                    "type": "string"
+                },
+                "type": {
                     "type": "string"
                 }
             }

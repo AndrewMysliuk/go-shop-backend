@@ -814,10 +814,15 @@ const docTemplate = `{
             "required": [
                 "category_id",
                 "price",
-                "title"
+                "subtype",
+                "title",
+                "type"
             ],
             "properties": {
                 "category_id": {
+                    "type": "string"
+                },
+                "description": {
                     "type": "string"
                 },
                 "image": {
@@ -832,7 +837,13 @@ const docTemplate = `{
                 "sale_old_price": {
                     "type": "integer"
                 },
+                "subtype": {
+                    "type": "string"
+                },
                 "title": {
+                    "type": "string"
+                },
+                "type": {
                     "type": "string"
                 }
             }
@@ -842,13 +853,18 @@ const docTemplate = `{
             "required": [
                 "category_id",
                 "price",
-                "title"
+                "subtype",
+                "title",
+                "type"
             ],
             "properties": {
                 "category_id": {
                     "type": "string"
                 },
                 "created_at": {
+                    "type": "string"
+                },
+                "description": {
                     "type": "string"
                 },
                 "id": {
@@ -866,7 +882,13 @@ const docTemplate = `{
                 "sale_old_price": {
                     "type": "integer"
                 },
+                "subtype": {
+                    "type": "string"
+                },
                 "title": {
+                    "type": "string"
+                },
+                "type": {
                     "type": "string"
                 }
             }
@@ -884,11 +906,16 @@ const docTemplate = `{
             "required": [
                 "category_id",
                 "price",
-                "title"
+                "subtype",
+                "title",
+                "type"
             ],
             "properties": {
                 "category_id": {
-                    "type": "integer"
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
                 },
                 "image": {
                     "type": "string"
@@ -902,7 +929,13 @@ const docTemplate = `{
                 "sale_old_price": {
                     "type": "integer"
                 },
+                "subtype": {
+                    "type": "string"
+                },
                 "title": {
+                    "type": "string"
+                },
+                "type": {
                     "type": "string"
                 }
             }
@@ -1079,7 +1112,7 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "104.248.247.198:3000",
+	Host:             "localhost:3000",
 	BasePath:         "/",
 	Schemes:          []string{},
 	Title:            "CRUD API Go Shop Backend",

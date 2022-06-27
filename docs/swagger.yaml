@@ -22,6 +22,8 @@ definitions:
     properties:
       category_id:
         type: string
+      description:
+        type: string
       image:
         type: string
       price:
@@ -30,18 +32,26 @@ definitions:
         type: integer
       sale_old_price:
         type: integer
+      subtype:
+        type: string
       title:
+        type: string
+      type:
         type: string
     required:
     - category_id
     - price
+    - subtype
     - title
+    - type
     type: object
   domain.ProductsList:
     properties:
       category_id:
         type: string
       created_at:
+        type: string
+      description:
         type: string
       id:
         type: string
@@ -53,12 +63,18 @@ definitions:
         type: integer
       sale_old_price:
         type: integer
+      subtype:
+        type: string
       title:
+        type: string
+      type:
         type: string
     required:
     - category_id
     - price
+    - subtype
     - title
+    - type
     type: object
   domain.UpdateCategoryInput:
     properties:
@@ -68,7 +84,9 @@ definitions:
   domain.UpdateProductInput:
     properties:
       category_id:
-        type: integer
+        type: string
+      description:
+        type: string
       image:
         type: string
       price:
@@ -77,12 +95,18 @@ definitions:
         type: integer
       sale_old_price:
         type: integer
+      subtype:
+        type: string
       title:
+        type: string
+      type:
         type: string
     required:
     - category_id
     - price
+    - subtype
     - title
+    - type
     type: object
   domain.User:
     properties:
@@ -192,7 +216,7 @@ definitions:
       status:
         type: string
     type: object
-host: 104.248.247.198:3000
+host: localhost:3000
 info:
   contact: {}
   description: API for frontend cliend

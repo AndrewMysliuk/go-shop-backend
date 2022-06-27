@@ -10,6 +10,9 @@ type ProductsList struct {
 	Sale         uint      `json:"sale"`
 	SaleOldPrice uint      `json:"sale_old_price"`
 	CategoryId   string    `json:"category_id" binding:"required"`
+	Type         string    `json:"type" binding:"required"`
+	Subtype      string    `json:"subtype" binding:"required"`
+	Description  string    `json:"description"`
 	CreatedAt    time.Time `json:"created_at"`
 }
 
@@ -20,6 +23,9 @@ type CreateProductInput struct {
 	Sale         uint   `json:"sale"`
 	SaleOldPrice uint   `json:"sale_old_price"`
 	CategoryId   string `json:"category_id" binding:"required"`
+	Type         string `json:"type" binding:"required"`
+	Subtype      string `json:"subtype" binding:"required"`
+	Description  string `json:"description"`
 }
 
 type UpdateProductInput struct {
@@ -28,5 +34,8 @@ type UpdateProductInput struct {
 	Price        *uint   `json:"price" binding:"required"`
 	Sale         *uint   `json:"sale"`
 	SaleOldPrice *uint   `json:"sale_old_price"`
-	CategoryId   *int    `json:"category_id" binding:"required"`
+	CategoryId   *string `json:"category_id" binding:"required"`
+	Type         *string `json:"type" binding:"required"`
+	Subtype      *string `json:"subtype" binding:"required"`
+	Description  *string `json:"description"`
 }

@@ -19,7 +19,10 @@ docker-compose:
 swag:
 	swag init -g cmd/main.go
 
+lint:
+	golangci-lint run
+
 test:
 	go test -v -cover ./...
 
-.PHONY:postgres createdb dropdb migrateup migratedown docker-compose swag test
+.PHONY:postgres createdb dropdb migrateup migratedown docker-compose swag lint test
