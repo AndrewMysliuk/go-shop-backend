@@ -48,6 +48,8 @@ func NewHandler(services *service.Service) *Handler {
 func (h *Handler) InitRouter() *gin.Engine {
 	router := gin.New()
 
+	router.Use(h.CORSMiddleware())
+
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 
 	auth := router.Group("/auth")
