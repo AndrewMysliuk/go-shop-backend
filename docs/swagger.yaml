@@ -1,26 +1,8 @@
 basePath: /
 definitions:
-  domain.CategoriesList:
-    properties:
-      created_at:
-        type: string
-      id:
-        type: string
-      name:
-        type: string
-    required:
-    - name
-    type: object
-  domain.CreateCategoryInput:
-    properties:
-      name:
-        type: string
-    required:
-    - name
-    type: object
   domain.CreateProductInput:
     properties:
-      category_id:
+      category:
         type: string
       description:
         type: string
@@ -39,7 +21,7 @@ definitions:
       type:
         type: string
     required:
-    - category_id
+    - category
     - price
     - subtype
     - title
@@ -47,7 +29,7 @@ definitions:
     type: object
   domain.ProductsList:
     properties:
-      category_id:
+      category:
         type: string
       created_at:
         type: string
@@ -70,20 +52,15 @@ definitions:
       type:
         type: string
     required:
-    - category_id
+    - category
     - price
     - subtype
     - title
     - type
     type: object
-  domain.UpdateCategoryInput:
-    properties:
-      name:
-        type: string
-    type: object
   domain.UpdateProductInput:
     properties:
-      category_id:
+      category:
         type: string
       description:
         type: string
@@ -102,7 +79,7 @@ definitions:
       type:
         type: string
     required:
-    - category_id
+    - category
     - price
     - subtype
     - title
@@ -177,24 +154,12 @@ definitions:
       message:
         type: string
     type: object
-  handler.getAllCategoriesListsResponse:
-    properties:
-      data:
-        items:
-          $ref: '#/definitions/domain.CategoriesList'
-        type: array
-    type: object
   handler.getAllProductsListsResponse:
     properties:
       data:
         items:
           $ref: '#/definitions/domain.ProductsList'
         type: array
-    type: object
-  handler.getCategoryResponse:
-    properties:
-      data:
-        $ref: '#/definitions/domain.CategoriesList'
     type: object
   handler.getCreationId:
     properties:
@@ -223,200 +188,6 @@ info:
   title: CRUD API Go Shop Backend
   version: "1.0"
 paths:
-  /api/categories/:
-    get:
-      consumes:
-      - application/json
-      description: get categories list
-      operationId: get-categories
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/handler.getAllCategoriesListsResponse'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/handler.errorResponse'
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/handler.errorResponse'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/handler.errorResponse'
-        default:
-          description: ""
-          schema:
-            $ref: '#/definitions/handler.errorResponse'
-      summary: Get Categories List
-      tags:
-      - Category
-    post:
-      consumes:
-      - application/json
-      description: create category
-      operationId: create-category
-      parameters:
-      - description: Category info
-        in: body
-        name: input
-        required: true
-        schema:
-          $ref: '#/definitions/domain.CreateCategoryInput'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/handler.getCreationId'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/handler.errorResponse'
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/handler.errorResponse'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/handler.errorResponse'
-        default:
-          description: ""
-          schema:
-            $ref: '#/definitions/handler.errorResponse'
-      security:
-      - ApiKeyAuth: []
-      summary: Create Category
-      tags:
-      - Category
-  /api/categories/{id}:
-    delete:
-      consumes:
-      - application/json
-      description: delete category by id
-      operationId: delete-category-by-id
-      parameters:
-      - description: Category ID
-        in: path
-        name: id
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/handler.statusResponse'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/handler.errorResponse'
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/handler.errorResponse'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/handler.errorResponse'
-        default:
-          description: ""
-          schema:
-            $ref: '#/definitions/handler.errorResponse'
-      security:
-      - ApiKeyAuth: []
-      summary: Delete Category
-      tags:
-      - Category
-    get:
-      consumes:
-      - application/json
-      description: get category by id
-      operationId: get-category-by-id
-      parameters:
-      - description: Category ID
-        in: path
-        name: id
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/handler.getCategoryResponse'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/handler.errorResponse'
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/handler.errorResponse'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/handler.errorResponse'
-        default:
-          description: ""
-          schema:
-            $ref: '#/definitions/handler.errorResponse'
-      summary: Get Category By ID
-      tags:
-      - Category
-    put:
-      consumes:
-      - application/json
-      description: update category by id
-      operationId: update-category-by-id
-      parameters:
-      - description: Category ID
-        in: path
-        name: id
-        required: true
-        type: string
-      - description: Category info
-        in: body
-        name: input
-        required: true
-        schema:
-          $ref: '#/definitions/domain.UpdateCategoryInput'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/handler.statusResponse'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/handler.errorResponse'
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/handler.errorResponse'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/handler.errorResponse'
-        default:
-          description: ""
-          schema:
-            $ref: '#/definitions/handler.errorResponse'
-      security:
-      - ApiKeyAuth: []
-      summary: Update Category
-      tags:
-      - Category
   /api/products/:
     get:
       consumes:

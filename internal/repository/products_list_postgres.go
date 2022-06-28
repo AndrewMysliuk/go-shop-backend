@@ -27,14 +27,14 @@ func (r *ProductsListPostgres) Create(list domain.CreateProductInput) (string, e
 	}
 
 	var productId string
-	row, err := tx.Prepare("INSERT INTO products(id, title, image, price, sale, sale_old_price, category_id, type, subtype, description, created_at) values($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING id")
+	row, err := tx.Prepare("INSERT INTO products(id, title, image, price, sale, sale_old_price, category, type, subtype, description, created_at) values($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING id")
 	if err != nil {
 		return "", err
 	}
 
 	defer row.Close()
 
-	if err = row.QueryRow(uuid.NewString(), list.Title, list.Image, list.Price, list.Sale, list.SaleOldPrice, list.CategoryId, list.Type, list.Subtype, list.Description, time.Now()).Scan(&productId); err != nil {
+	if err = row.QueryRow(uuid.NewString(), list.Title, list.Image, list.Price, list.Sale, list.SaleOldPrice, list.Category, list.Type, list.Subtype, list.Description, time.Now()).Scan(&productId); err != nil {
 		return "", err
 	}
 
@@ -56,7 +56,7 @@ func (r *ProductsListPostgres) GetAll() ([]domain.ProductsList, error) {
 	products := make([]domain.ProductsList, 0)
 	for rows.Next() {
 		var product domain.ProductsList
-		if err := rows.Scan(&product.Id, &product.Title, &product.Image, &product.Price, &product.Sale, &product.SaleOldPrice, &product.CategoryId, &product.Type, &product.Subtype, &product.Description, &product.CreatedAt); err != nil {
+		if err := rows.Scan(&product.Id, &product.Title, &product.Image, &product.Price, &product.Sale, &product.SaleOldPrice, &product.Category, &product.Type, &product.Subtype, &product.Description, &product.CreatedAt); err != nil {
 			return nil, err
 		}
 
@@ -75,7 +75,7 @@ func (r *ProductsListPostgres) GetById(listId string) (domain.ProductsList, erro
 
 	var product domain.ProductsList
 	for rows.Next() {
-		if err := rows.Scan(&product.Id, &product.Title, &product.Image, &product.Price, &product.Sale, &product.SaleOldPrice, &product.CategoryId, &product.Type, &product.Subtype, &product.Description, &product.CreatedAt); err != nil {
+		if err := rows.Scan(&product.Id, &product.Title, &product.Image, &product.Price, &product.Sale, &product.SaleOldPrice, &product.Category, &product.Type, &product.Subtype, &product.Description, &product.CreatedAt); err != nil {
 			return product, err
 		}
 	}
@@ -118,9 +118,9 @@ func (r *ProductsListPostgres) Update(itemId string, input domain.UpdateProductI
 		argId++
 	}
 
-	if input.CategoryId != nil {
-		setValues = append(setValues, fmt.Sprintf("category_id=$%d", argId))
-		args = append(args, *input.CategoryId)
+	if input.Category != nil {
+		setValues = append(setValues, fmt.Sprintf("category=$%d", argId))
+		args = append(args, *input.Category)
 		argId++
 	}
 

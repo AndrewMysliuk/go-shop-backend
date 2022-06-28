@@ -11,14 +11,6 @@ type User interface {
 	GetMe(token string) (domain.User, error)
 }
 
-type CategoriesList interface {
-	Create(list domain.CreateCategoryInput) (string, error)
-	GetAll() ([]domain.CategoriesList, error)
-	GetById(listId string) (domain.CategoriesList, error)
-	Update(itemId string, input domain.UpdateCategoryInput) error
-	Delete(itemId string) error
-}
-
 type ProductsList interface {
 	Create(list domain.CreateProductInput) (string, error)
 	GetAll() ([]domain.ProductsList, error)
@@ -29,14 +21,12 @@ type ProductsList interface {
 
 type Service struct {
 	User
-	CategoriesList
 	ProductsList
 }
 
 func NewService(repos *repository.Repository) *Service {
 	return &Service{
-		User:           NewAuthService(repos.Authorization),
-		CategoriesList: NewCategoriesListService(repos.CategoriesList),
-		ProductsList:   NewProductsListService(repos.ProductsList),
+		User:         NewAuthService(repos.Authorization),
+		ProductsList: NewProductsListService(repos.ProductsList),
 	}
 }

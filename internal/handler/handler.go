@@ -15,14 +15,6 @@ type User interface {
 	GetMe(token string) (domain.User, error)
 }
 
-type Categories interface {
-	Create(list domain.CreateCategoryInput) (string, error)
-	GetAll() ([]domain.CategoriesList, error)
-	GetById(listId string) (domain.CategoriesList, error)
-	Update(itemId string, input domain.UpdateCategoryInput) error
-	Delete(itemId string) error
-}
-
 type Products interface {
 	Create(list domain.CreateProductInput) (string, error)
 	GetAll() ([]domain.ProductsList, error)
@@ -32,16 +24,14 @@ type Products interface {
 }
 
 type Handler struct {
-	userService       User
-	categoriesService Categories
-	productsService   Products
+	userService     User
+	productsService Products
 }
 
 func NewHandler(services *service.Service) *Handler {
 	return &Handler{
-		userService:       services.User,
-		categoriesService: services.CategoriesList,
-		productsService:   services.ProductsList,
+		userService:     services.User,
+		productsService: services.ProductsList,
 	}
 }
 
@@ -64,15 +54,6 @@ func (h *Handler) InitRouter() *gin.Engine {
 	api := router.Group("/api")
 	{
 		api.Use(h.loggingMiddleware)
-
-		categories := api.Group("/categories")
-		{
-			categories.POST("/", h.userIdentify, h.userIsAdmin, h.createCategory)
-			categories.GET("/", h.getAllCategories)
-			categories.GET("/:id", h.getCategoryById)
-			categories.PUT("/:id", h.userIdentify, h.userIsAdmin, h.updateCategory)
-			categories.DELETE("/:id", h.userIdentify, h.userIsAdmin, h.deleteCategory)
-		}
 
 		products := api.Group("/products")
 		{
