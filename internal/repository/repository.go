@@ -1,6 +1,8 @@
 package repository
 
 import (
+	"time"
+
 	"github.com/AndrewMislyuk/go-shop-backend/internal/domain"
 
 	"database/sql"
@@ -12,7 +14,7 @@ type Authorization interface {
 }
 
 type ProductsList interface {
-	Create(list domain.CreateProductInput) (string, error)
+	Create(list domain.CreateProductInput, productId string, timestamp time.Time) (string, error)
 	GetAll() ([]domain.ProductsList, error)
 	GetById(listId string) (domain.ProductsList, error)
 	Update(itemId string, input domain.UpdateProductInput) error

@@ -5,6 +5,8 @@ import (
 	"github.com/AndrewMislyuk/go-shop-backend/internal/repository"
 )
 
+//go:generate mockgen -source=service.go -destination=mock/mock.go
+
 type User interface {
 	CreateUser(user domain.UserSignUp) (string, error)
 	GenerateToken(email, password string) (string, error)

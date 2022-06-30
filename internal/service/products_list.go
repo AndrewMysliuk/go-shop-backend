@@ -1,8 +1,11 @@
 package service
 
 import (
+	"time"
+
 	"github.com/AndrewMislyuk/go-shop-backend/internal/domain"
 	"github.com/AndrewMislyuk/go-shop-backend/internal/repository"
+	"github.com/google/uuid"
 )
 
 type ProductsListService struct {
@@ -16,7 +19,10 @@ func NewProductsListService(repo repository.ProductsList) *ProductsListService {
 }
 
 func (s *ProductsListService) Create(list domain.CreateProductInput) (string, error) {
-	return s.repo.Create(list)
+	productId := uuid.New().String()
+	timestamp := time.Now()
+
+	return s.repo.Create(list, productId, timestamp)
 }
 
 func (s *ProductsListService) GetAll() ([]domain.ProductsList, error) {
