@@ -9,7 +9,7 @@ import (
 )
 
 type Authorization interface {
-	CreateUser(user domain.UserSignUp) (string, error)
+	CreateUser(user domain.UserSignUp, dataId string, timestamp time.Time) (string, error)
 	GetUser(email, password string) (domain.User, error)
 }
 

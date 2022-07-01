@@ -102,7 +102,7 @@ func (h *Handler) getMe(c *gin.Context) {
 
 	user, err := h.userService.GetMe(headerParts[1])
 	if err != nil {
-		newErrorResponse(c, http.StatusUnauthorized, err.Error())
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
 
 		return
 	}

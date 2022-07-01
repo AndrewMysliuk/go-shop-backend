@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/AndrewMislyuk/go-shop-backend/internal/domain"
-	"github.com/google/uuid"
+	"github.com/sirupsen/logrus"
 )
 
 type AuthPostgres struct {
@@ -16,7 +16,7 @@ func NewAuthPostgres(db *sql.DB) *AuthPostgres {
 	return &AuthPostgres{db: db}
 }
 
-func (r *AuthPostgres) CreateUser(user domain.UserSignUp) (string, error) {
+func (r *AuthPostgres) CreateUser(user domain.UserSignUp, dataId string, timestamp time.Time) (string, error) {
 	tx, err := r.db.Begin()
 	if err != nil {
 		return "", err
@@ -25,21 +25,24 @@ func (r *AuthPostgres) CreateUser(user domain.UserSignUp) (string, error) {
 	var userId string
 	row, err := tx.Prepare("INSERT INTO users(id, name, surname, email, phone, role, password_hash, created_at) values($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id")
 	if err != nil {
+		if rb := tx.Rollback(); rb != nil {
+			logrus.Fatalf("query failed: %v, unable to abort: %v", err, rb)
+		}
+
 		return "", err
 	}
 
 	defer row.Close()
 
-	if err = row.QueryRow(uuid.NewString(), user.Name, user.Surname, user.Email, user.Phone, user.Role, user.Password, time.Now()).Scan(&userId); err != nil {
+	if err = row.QueryRow(dataId, user.Name, user.Surname, user.Email, user.Phone, user.Role, user.Password, timestamp).Scan(&userId); err != nil {
+		if rb := tx.Rollback(); rb != nil {
+			logrus.Fatalf("query failed: %v, unable to abort: %v", err, rb)
+		}
+
 		return "", err
 	}
 
-	err = tx.Commit()
-	if err != nil {
-		return "", err
-	}
-
-	return userId, nil
+	return userId, tx.Commit()
 }
 
 func (r *AuthPostgres) GetUser(email, password string) (domain.User, error) {

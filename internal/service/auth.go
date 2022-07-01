@@ -9,6 +9,7 @@ import (
 	"github.com/AndrewMislyuk/go-shop-backend/internal/domain"
 	"github.com/AndrewMislyuk/go-shop-backend/internal/repository"
 	"github.com/golang-jwt/jwt"
+	"github.com/google/uuid"
 )
 
 const (
@@ -34,8 +35,10 @@ func NewAuthService(repo repository.Authorization) *Auth {
 
 func (a *Auth) CreateUser(user domain.UserSignUp) (string, error) {
 	user.Password = generatePasswordHash(user.Password)
+	dataId := uuid.New().String()
+	timestamp := time.Now()
 
-	return a.repo.CreateUser(user)
+	return a.repo.CreateUser(user, dataId, timestamp)
 }
 
 func (a *Auth) GenerateToken(email, password string) (string, error) {
