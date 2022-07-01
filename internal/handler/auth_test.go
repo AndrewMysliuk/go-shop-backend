@@ -195,13 +195,13 @@ func TestHandler_getMe(t *testing.T) {
 			token:       "token",
 			mockBehavior: func(s *mock_service.MockUser, token string) {
 				s.EXPECT().GetMe(token).Return(domain.User{
-					Id:        "34c8d3e6-b8d7-43dc-847e-5764c4114856",
-					Name:      "Test_Name",
-					Surname:   "Test_Surname",
-					Email:     "test@gmail.com",
-					Phone:     "+4456781234",
-					Role:      "ADMIN",
-					Password:  "1234QWER@",
+					Id:       "34c8d3e6-b8d7-43dc-847e-5764c4114856",
+					Name:     "Test_Name",
+					Surname:  "Test_Surname",
+					Email:    "test@gmail.com",
+					Phone:    "+4456781234",
+					Role:     "ADMIN",
+					Password: "1234QWER@",
 					// CreatedAt: time.Now(),
 				}, nil)
 			},
