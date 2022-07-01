@@ -5,7 +5,6 @@ import (
 	"errors"
 	"net/http/httptest"
 	"testing"
-	"time"
 
 	"github.com/AndrewMislyuk/go-shop-backend/internal/domain"
 	"github.com/AndrewMislyuk/go-shop-backend/internal/service"
@@ -203,11 +202,11 @@ func TestHandler_getMe(t *testing.T) {
 					Phone:     "+4456781234",
 					Role:      "ADMIN",
 					Password:  "1234QWER@",
-					CreatedAt: time.Date(2022, 01, 12, 13, 8, 21, 32963, time.Local),
+					// CreatedAt: time.Now(),
 				}, nil)
 			},
 			expectedStatusCode:  200,
-			expectedRequestBody: `{"id":"34c8d3e6-b8d7-43dc-847e-5764c4114856","name":"Test_Name","surname":"Test_Surname","email":"test@gmail.com","phone":"+4456781234","role":"ADMIN","password":"1234QWER@","created_at":"2022-01-12T13:08:21.000032963+02:00"}`,
+			expectedRequestBody: `{"id":"34c8d3e6-b8d7-43dc-847e-5764c4114856","name":"Test_Name","surname":"Test_Surname","email":"test@gmail.com","phone":"+4456781234","role":"ADMIN","password":"1234QWER@","created_at":"0001-01-01T00:00:00Z"}`,
 		},
 
 		{
