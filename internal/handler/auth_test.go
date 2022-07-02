@@ -235,11 +235,11 @@ func TestHandler_getMe(t *testing.T) {
 
 			// Test Server
 			r := gin.New()
-			r.POST("/get-me", handler.getMe)
+			r.GET("/get-me", handler.getMe)
 
 			// Test Request
 			w := httptest.NewRecorder()
-			req := httptest.NewRequest("POST", "/get-me", nil)
+			req := httptest.NewRequest("GET", "/get-me", nil)
 			req.Header.Set("Authorization", testCase.headerValue)
 
 			// Perform Request
