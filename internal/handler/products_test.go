@@ -173,11 +173,11 @@ func TestHandler_getAllProducts(t *testing.T) {
 
 			// Test Server
 			r := gin.New()
-			r.POST("/get-all-product", handler.getAllProducts)
+			r.GET("/get-all-product", handler.getAllProducts)
 
 			// Test Request
 			w := httptest.NewRecorder()
-			req := httptest.NewRequest("POST", "/get-all-product", nil)
+			req := httptest.NewRequest("GET", "/get-all-product", nil)
 
 			// Perform Request
 			r.ServeHTTP(w, req)
@@ -242,11 +242,11 @@ func TestHandler_getProductById(t *testing.T) {
 
 			// Test Server
 			r := gin.New()
-			r.POST("/get-product/:id", handler.getProductById)
+			r.GET("/get-product/:id", handler.getProductById)
 
 			// Test Request
 			w := httptest.NewRecorder()
-			req := httptest.NewRequest("POST", "/get-product/453b4f0f-1f56-4c57-b43d-7b79792450a7", nil)
+			req := httptest.NewRequest("GET", "/get-product/453b4f0f-1f56-4c57-b43d-7b79792450a7", nil)
 
 			// Perform Request
 			r.ServeHTTP(w, req)
