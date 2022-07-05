@@ -174,3 +174,68 @@ func (mr *MockProductsListMockRecorder) Update(itemId, input interface{}) *gomoc
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Update", reflect.TypeOf((*MockProductsList)(nil).Update), itemId, input)
 }
+
+// MockFiles is a mock of Files interface.
+type MockFiles struct {
+	ctrl     *gomock.Controller
+	recorder *MockFilesMockRecorder
+}
+
+// MockFilesMockRecorder is the mock recorder for MockFiles.
+type MockFilesMockRecorder struct {
+	mock *MockFiles
+}
+
+// NewMockFiles creates a new mock instance.
+func NewMockFiles(ctrl *gomock.Controller) *MockFiles {
+	mock := &MockFiles{ctrl: ctrl}
+	mock.recorder = &MockFilesMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockFiles) EXPECT() *MockFilesMockRecorder {
+	return m.recorder
+}
+
+// Delete mocks base method.
+func (m *MockFiles) Delete() error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Delete")
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// Delete indicates an expected call of Delete.
+func (mr *MockFilesMockRecorder) Delete() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delete", reflect.TypeOf((*MockFiles)(nil).Delete))
+}
+
+// Get mocks base method.
+func (m *MockFiles) Get() error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Get")
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// Get indicates an expected call of Get.
+func (mr *MockFilesMockRecorder) Get() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Get", reflect.TypeOf((*MockFiles)(nil).Get))
+}
+
+// Upload mocks base method.
+func (m *MockFiles) Upload() error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Upload")
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// Upload indicates an expected call of Upload.
+func (mr *MockFilesMockRecorder) Upload() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Upload", reflect.TypeOf((*MockFiles)(nil).Upload))
+}

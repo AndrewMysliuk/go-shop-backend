@@ -30,7 +30,6 @@ func TestHandler_createProduct(t *testing.T) {
 			inputBody: `{"title":"test_title","image":"test_image","price":70000,"sale":0,"sale_old_price":0,"category":"test_category","type":"test_type","subtype":"test_subtype","description":"test_description"}`,
 			inputUser: domain.CreateProductInput{
 				Title:        "test_title",
-				Image:        "test_image",
 				Price:        70000,
 				Sale:         0,
 				SaleOldPrice: 0,
@@ -59,7 +58,6 @@ func TestHandler_createProduct(t *testing.T) {
 			inputBody: `{"title":"test_title","image":"test_image","price":70000,"sale":0,"sale_old_price":0,"category":"test_category","type":"test_type","subtype":"test_subtype","description":"test_description"}`,
 			inputUser: domain.CreateProductInput{
 				Title:        "test_title",
-				Image:        "test_image",
 				Price:        70000,
 				Sale:         0,
 				SaleOldPrice: 0,
@@ -271,10 +269,9 @@ func TestHandler_updateProduct(t *testing.T) {
 	}{
 		{
 			name:      "OK",
-			inputBody: `{"title":"new_title","image":"new_image","price":70000,"sale":0,"sale_old_price":0,"category":"new_category","type":"new_type","subtype":"new_subtype","description":"new_description"}`,
+			inputBody: `{"title":"new_title","price":70000,"sale":0,"sale_old_price":0,"category":"new_category","type":"new_type","subtype":"new_subtype","description":"new_description"}`,
 			inputUser: domain.UpdateProductInput{
 				Title:        stringPointer("new_title"),
-				Image:        stringPointer("new_image"),
 				Price:        uintPointer(70000),
 				Sale:         uintPointer(0),
 				SaleOldPrice: uintPointer(0),
@@ -292,10 +289,9 @@ func TestHandler_updateProduct(t *testing.T) {
 
 		{
 			name:      "Service Failure",
-			inputBody: `{"title":"new_title","image":"new_image","price":70000,"sale":0,"sale_old_price":0,"category":"new_category","type":"new_type","subtype":"new_subtype","description":"new_description"}`,
+			inputBody: `{"title":"new_title","price":70000,"sale":0,"sale_old_price":0,"category":"new_category","type":"new_type","subtype":"new_subtype","description":"new_description"}`,
 			inputUser: domain.UpdateProductInput{
 				Title:        stringPointer("new_title"),
-				Image:        stringPointer("new_image"),
 				Price:        uintPointer(70000),
 				Sale:         uintPointer(0),
 				SaleOldPrice: uintPointer(0),

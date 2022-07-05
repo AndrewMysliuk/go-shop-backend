@@ -13,8 +13,11 @@ import (
 	"github.com/AndrewMislyuk/go-shop-backend/internal/service"
 	"github.com/AndrewMislyuk/go-shop-backend/pkg/database"
 	"github.com/AndrewMislyuk/go-shop-backend/pkg/server"
+	"github.com/AndrewMislyuk/go-shop-backend/pkg/storage"
 	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
+	"github.com/minio/minio-go/v7"
+	"github.com/minio/minio-go/v7/pkg/credentials"
 	"github.com/sirupsen/logrus"
 )
 
@@ -64,8 +67,18 @@ func main() {
 		logrus.Fatal(err)
 	}
 
+	client, err := minio.New(cfg.FileStorageConfig.Endpoint, &minio.Options{
+		Creds:  credentials.NewStaticV4(cfg.FileStorageConfig.AccessKey, cfg.FileStorageConfig.SecretKey, ""),
+		Secure: true,
+	})
+	if err != nil {
+		logrus.Fatal(err)
+	}
+
+	provider := storage.NewFileStorage(client, cfg.FileStorageConfig.Bucket, cfg.FileStorageConfig.Endpoint)
+
 	documentsRepo := repository.NewRepository(db)
-	documentsService := service.NewService(documentsRepo)
+	documentsService := service.NewService(documentsRepo, provider)
 	handler := handler.NewHandler(documentsService)
 
 	srv := new(server.Server)

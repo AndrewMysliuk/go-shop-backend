@@ -1,20 +1,26 @@
 package service
 
 import (
+	"context"
+	"fmt"
+	"strings"
 	"time"
 
 	"github.com/AndrewMislyuk/go-shop-backend/internal/domain"
 	"github.com/AndrewMislyuk/go-shop-backend/internal/repository"
+	"github.com/AndrewMislyuk/go-shop-backend/pkg/storage"
 	"github.com/google/uuid"
 )
 
 type ProductsListService struct {
-	repo repository.ProductsList
+	repo    repository.ProductsList
+	storage storage.Provider
 }
 
-func NewProductsListService(repo repository.ProductsList) *ProductsListService {
+func NewProductsListService(repo repository.ProductsList, storage storage.Provider) *ProductsListService {
 	return &ProductsListService{
-		repo: repo,
+		repo:    repo,
+		storage: storage,
 	}
 }
 
@@ -38,5 +44,25 @@ func (s *ProductsListService) Update(itemId string, input domain.UpdateProductIn
 }
 
 func (s *ProductsListService) Delete(itemId string) error {
+	product, err := s.GetById(itemId)
+	if err != nil {
+		return err
+	}
+
+	if product.Image != "" {
+		filename := s.parseImageURL(product.Image)
+
+		err := s.storage.Delete(context.Background(), filename)
+		if err != nil {
+			return err
+		}
+	}
+
 	return s.repo.Delete(itemId)
+}
+
+func (s *ProductsListService) parseImageURL(url string) string {
+	str := strings.Split(url, "/")
+
+	return fmt.Sprintf("images/%s", str[len(str)-1])
 }

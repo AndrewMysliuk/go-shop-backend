@@ -18,7 +18,6 @@ type ProductsList struct {
 
 type CreateProductInput struct {
 	Title        string `json:"title" binding:"required"`
-	Image        string `json:"image"`
 	Price        uint   `json:"price" binding:"required"`
 	Sale         uint   `json:"sale"`
 	SaleOldPrice uint   `json:"sale_old_price"`
@@ -30,7 +29,6 @@ type CreateProductInput struct {
 
 type UpdateProductInput struct {
 	Title        *string `json:"title" binding:"required"`
-	Image        *string `json:"image"`
 	Price        *uint   `json:"price" binding:"required"`
 	Sale         *uint   `json:"sale"`
 	SaleOldPrice *uint   `json:"sale_old_price"`

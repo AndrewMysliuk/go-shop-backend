@@ -3,6 +3,7 @@ package service
 import (
 	"github.com/AndrewMislyuk/go-shop-backend/internal/domain"
 	"github.com/AndrewMislyuk/go-shop-backend/internal/repository"
+	"github.com/AndrewMislyuk/go-shop-backend/pkg/storage"
 )
 
 //go:generate mockgen -source=service.go -destination=mock/mock.go
@@ -21,14 +22,20 @@ type ProductsList interface {
 	Delete(itemId string) error
 }
 
+type Files interface {
+	Upload(file domain.File) (string, error)
+}
+
 type Service struct {
 	User
 	ProductsList
+	Files
 }
 
-func NewService(repos *repository.Repository) *Service {
+func NewService(repos *repository.Repository, storage storage.Provider) *Service {
 	return &Service{
 		User:         NewAuthService(repos.Authorization),
-		ProductsList: NewProductsListService(repos.ProductsList),
+		ProductsList: NewProductsListService(repos.ProductsList, storage),
+		Files:        NewFileService(repos.Files, storage),
 	}
 }

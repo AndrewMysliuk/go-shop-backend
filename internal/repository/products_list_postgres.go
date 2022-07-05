@@ -27,7 +27,7 @@ func (r *ProductsListPostgres) Create(list domain.CreateProductInput, productId 
 	}
 
 	var returnedId string
-	row, err := tx.Prepare("INSERT INTO products(id, title, image, price, sale, sale_old_price, category, type, subtype, description, created_at) values($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING id")
+	row, err := tx.Prepare("INSERT INTO products(id, title, price, sale, sale_old_price, category, type, subtype, description, created_at) values($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING id")
 	if err != nil {
 		if rb := tx.Rollback(); rb != nil {
 			logrus.Fatalf("query failed: %v, unable to abort: %v", err, rb)
@@ -38,7 +38,7 @@ func (r *ProductsListPostgres) Create(list domain.CreateProductInput, productId 
 
 	defer row.Close()
 
-	if err = row.QueryRow(productId, list.Title, list.Image, list.Price, list.Sale, list.SaleOldPrice, list.Category, list.Type, list.Subtype, list.Description, timestamp).Scan(&returnedId); err != nil {
+	if err = row.QueryRow(productId, list.Title, list.Price, list.Sale, list.SaleOldPrice, list.Category, list.Type, list.Subtype, list.Description, timestamp).Scan(&returnedId); err != nil {
 		if rb := tx.Rollback(); rb != nil {
 			logrus.Fatalf("query failed: %v, unable to abort: %v", err, rb)
 		}
@@ -95,12 +95,6 @@ func (r *ProductsListPostgres) Update(itemId string, input domain.UpdateProductI
 	if input.Title != nil {
 		setValues = append(setValues, fmt.Sprintf("title=$%d", argId))
 		args = append(args, *input.Title)
-		argId++
-	}
-
-	if input.Image != nil {
-		setValues = append(setValues, fmt.Sprintf("image=$%d", argId))
-		args = append(args, *input.Image)
 		argId++
 	}
 

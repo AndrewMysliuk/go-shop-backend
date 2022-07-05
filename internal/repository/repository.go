@@ -21,14 +21,21 @@ type ProductsList interface {
 	Delete(itemId string) error
 }
 
+type Files interface {
+	Create(file domain.File) error
+	GetProductImage(productId string) (string, error)
+}
+
 type Repository struct {
 	Authorization
 	ProductsList
+	Files
 }
 
 func NewRepository(db *sql.DB) *Repository {
 	return &Repository{
 		Authorization: NewAuthPostgres(db),
 		ProductsList:  NewProductsListPostgres(db),
+		Files:         NewFilesPostgres(db),
 	}
 }

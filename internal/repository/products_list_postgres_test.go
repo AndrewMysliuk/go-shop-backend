@@ -41,7 +41,6 @@ func TestProductsListPostgres_Create(t *testing.T) {
 				productId: "34c8d3e6-b8d7-43dc-847e-5764c4114856",
 				item: domain.CreateProductInput{
 					Title:        "Твидовый кардиган из хлопка",
-					Image:        "w1.webp",
 					Price:        749000,
 					Sale:         0,
 					SaleOldPrice: 0,
@@ -58,7 +57,7 @@ func TestProductsListPostgres_Create(t *testing.T) {
 				rows := sqlmock.NewRows([]string{"id"}).AddRow(args.productId)
 				prep := mock.ExpectPrepare("INSERT INTO products")
 				prep.ExpectQuery().
-					WithArgs(args.productId, args.item.Title, args.item.Image, args.item.Price, args.item.Sale, args.item.SaleOldPrice, args.item.Category, args.item.Type, args.item.Subtype, args.item.Description, args.createdAt).
+					WithArgs(args.productId, args.item.Title, args.item.Price, args.item.Sale, args.item.SaleOldPrice, args.item.Category, args.item.Type, args.item.Subtype, args.item.Description, args.createdAt).
 					WillReturnRows(rows)
 
 				mock.ExpectCommit()
@@ -71,7 +70,6 @@ func TestProductsListPostgres_Create(t *testing.T) {
 				productId: "",
 				item: domain.CreateProductInput{
 					Title:        "",
-					Image:        "",
 					Price:        0,
 					Sale:         0,
 					SaleOldPrice: 0,
@@ -88,7 +86,7 @@ func TestProductsListPostgres_Create(t *testing.T) {
 				rows := sqlmock.NewRows([]string{"id"}).AddRow(args.productId).RowError(0, errors.New("insert error"))
 				prep := mock.ExpectPrepare("INSERT INTO products")
 				prep.ExpectQuery().
-					WithArgs(args.productId, args.item.Title, args.item.Image, args.item.Price, args.item.Sale, args.item.SaleOldPrice, args.item.Category, args.item.Type, args.item.Subtype, args.item.Description, args.createdAt).
+					WithArgs(args.productId, args.item.Title, args.item.Price, args.item.Sale, args.item.SaleOldPrice, args.item.Category, args.item.Type, args.item.Subtype, args.item.Description, args.createdAt).
 					WillReturnRows(rows)
 
 				mock.ExpectRollback()
@@ -319,13 +317,12 @@ func TestProductsListPostgres_Update(t *testing.T) {
 			name: "OK_AllFields",
 			mock: func() {
 				mock.ExpectExec("UPDATE products SET (.+) WHERE (.+)").
-					WithArgs("new title", "new image", 1000, 1000, 100, "new category", "new type", "new subtype", "new description", "453b4f0f-1f56-4c57-b43d-7b79792450a7").WillReturnResult(sqlmock.NewResult(0, 1))
+					WithArgs("new title", 1000, 1000, 100, "new category", "new type", "new subtype", "new description", "453b4f0f-1f56-4c57-b43d-7b79792450a7").WillReturnResult(sqlmock.NewResult(0, 1))
 			},
 			args: args{
 				productId: "453b4f0f-1f56-4c57-b43d-7b79792450a7",
 				item: domain.UpdateProductInput{
 					Title:        stringPointer("new title"),
-					Image:        stringPointer("new image"),
 					Price:        uintPointer(1000),
 					Sale:         uintPointer(1000),
 					SaleOldPrice: uintPointer(100),

@@ -16,6 +16,75 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/api/file/upload": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "upload image",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Upload image"
+                ],
+                "summary": "Upload image",
+                "operationId": "file-upload-image",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "productId",
+                        "name": "productId",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "file",
+                        "description": "file",
+                        "name": "file",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handler.UploadedImageURL"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorResponse"
+                        }
+                    },
+                    "default": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/api/products/": {
             "get": {
                 "description": "get products list",
@@ -501,9 +570,6 @@ const docTemplate = `{
                 "description": {
                     "type": "string"
                 },
-                "image": {
-                    "type": "string"
-                },
                 "price": {
                     "type": "integer"
                 },
@@ -583,9 +649,6 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "description": {
-                    "type": "string"
-                },
-                "image": {
                     "type": "string"
                 },
                 "price": {
@@ -694,6 +757,14 @@ const docTemplate = `{
                 "surname": {
                     "type": "string",
                     "minLength": 1
+                }
+            }
+        },
+        "handler.UploadedImageURL": {
+            "type": "object",
+            "properties": {
+                "image_url": {
+                    "type": "string"
                 }
             }
         },

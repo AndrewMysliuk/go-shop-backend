@@ -6,8 +6,6 @@ definitions:
         type: string
       description:
         type: string
-      image:
-        type: string
       price:
         type: integer
       sale:
@@ -63,8 +61,6 @@ definitions:
       category:
         type: string
       description:
-        type: string
-      image:
         type: string
       price:
         type: integer
@@ -149,6 +145,11 @@ definitions:
     - role
     - surname
     type: object
+  handler.UploadedImageURL:
+    properties:
+      image_url:
+        type: string
+    type: object
   handler.errorResponse:
     properties:
       message:
@@ -188,6 +189,51 @@ info:
   title: CRUD API Go Shop Backend
   version: "1.0"
 paths:
+  /api/file/upload:
+    post:
+      consumes:
+      - application/json
+      description: upload image
+      operationId: file-upload-image
+      parameters:
+      - description: productId
+        in: formData
+        name: productId
+        required: true
+        type: string
+      - description: file
+        in: formData
+        name: file
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.UploadedImageURL'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Upload image
+      tags:
+      - Upload image
   /api/products/:
     get:
       consumes:
