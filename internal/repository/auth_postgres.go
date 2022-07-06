@@ -2,6 +2,7 @@ package repository
 
 import (
 	"database/sql"
+	"errors"
 	"time"
 
 	"github.com/AndrewMislyuk/go-shop-backend/internal/domain"
@@ -57,6 +58,10 @@ func (r *AuthPostgres) GetUser(email, password string) (domain.User, error) {
 		if err := rows.Scan(&userData.Id, &userData.Name, &userData.Surname, &userData.Email, &userData.Phone, &userData.Role, &userData.Password, &userData.CreatedAt); err != nil {
 			return userData, err
 		}
+	}
+
+	if userData.Email == "" || userData.Password == "" {
+		return userData, errors.New("user not register")
 	}
 
 	return userData, rows.Err()

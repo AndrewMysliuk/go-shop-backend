@@ -167,7 +167,7 @@ func TestAuthPostgres_GetUser(t *testing.T) {
 				email:    "test@gmail.com",
 				password: "_9Z9sL~i3H4Kb33jcKJ9-8rZ+&-uRk#",
 			},
-			want: domain.User{},
+			wantErr: true,
 		},
 	}
 
