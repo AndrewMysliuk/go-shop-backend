@@ -36,7 +36,7 @@ func init() {
 // @version 1.0
 // @description API for frontend cliend
 
-// @host 104.248.247.198:3000
+// @host 159.89.235.180:3000
 // @BasePath /
 
 // @securityDefinitions.apikey ApiKeyAuth
