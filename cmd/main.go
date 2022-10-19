@@ -7,10 +7,11 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/AndrewMislyuk/go-shop-backend/internal/config"
-	"github.com/AndrewMislyuk/go-shop-backend/internal/handler"
-	"github.com/AndrewMislyuk/go-shop-backend/internal/repository"
-	"github.com/AndrewMislyuk/go-shop-backend/internal/service"
+	grpc_client "github.com/AndrewMislyuk/go-shop-backend/internal/transport/grpc"
+	"github.com/AndrewMislyuk/go-shop-backend/internal/transport/rest/config"
+	"github.com/AndrewMislyuk/go-shop-backend/internal/transport/rest/handler"
+	"github.com/AndrewMislyuk/go-shop-backend/internal/transport/rest/repository"
+	"github.com/AndrewMislyuk/go-shop-backend/internal/transport/rest/service"
 	"github.com/AndrewMislyuk/go-shop-backend/pkg/database"
 	"github.com/AndrewMislyuk/go-shop-backend/pkg/server"
 	"github.com/AndrewMislyuk/go-shop-backend/pkg/storage"
@@ -75,10 +76,15 @@ func main() {
 		logrus.Fatal(err)
 	}
 
+	auditClient, err := grpc_client.NewClient(9000)
+	if err != nil {
+		logrus.Fatal(err)
+	}
+
 	provider := storage.NewFileStorage(client, cfg.FileStorageConfig.Bucket, cfg.FileStorageConfig.Endpoint)
 
 	documentsRepo := repository.NewRepository(db)
-	documentsService := service.NewService(documentsRepo, provider)
+	documentsService := service.NewService(documentsRepo, auditClient, provider)
 	handler := handler.NewHandler(documentsService)
 
 	srv := new(server.Server)
