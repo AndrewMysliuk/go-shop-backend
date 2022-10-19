@@ -3,7 +3,7 @@ package repository
 import (
 	"database/sql"
 
-	"github.com/AndrewMislyuk/go-shop-backend/internal/domain"
+	"github.com/AndrewMislyuk/go-shop-backend/internal/transport/rest/domain"
 )
 
 type FilesPostgres struct {

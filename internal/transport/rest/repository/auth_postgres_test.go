@@ -6,7 +6,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/AndrewMislyuk/go-shop-backend/internal/domain"
+	"github.com/AndrewMislyuk/go-shop-backend/internal/transport/rest/domain"
 	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/sirupsen/logrus"
 	"github.com/stretchr/testify/assert"

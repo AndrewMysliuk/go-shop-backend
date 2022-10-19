@@ -2,8 +2,8 @@ package handler
 
 import (
 	_ "github.com/AndrewMislyuk/go-shop-backend/docs"
-	"github.com/AndrewMislyuk/go-shop-backend/internal/domain"
-	"github.com/AndrewMislyuk/go-shop-backend/internal/service"
+	"github.com/AndrewMislyuk/go-shop-backend/internal/transport/rest/domain"
+	"github.com/AndrewMislyuk/go-shop-backend/internal/transport/rest/service"
 	"github.com/gin-gonic/gin"
 	swaggerfiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"

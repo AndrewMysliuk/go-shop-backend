@@ -3,7 +3,7 @@ package handler
 import (
 	"net/http"
 
-	"github.com/AndrewMislyuk/go-shop-backend/internal/domain"
+	"github.com/AndrewMislyuk/go-shop-backend/internal/transport/rest/domain"
 	"github.com/gin-gonic/gin"
 )
 

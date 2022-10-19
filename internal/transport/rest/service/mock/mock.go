@@ -7,7 +7,7 @@ package mock_service
 import (
 	reflect "reflect"
 
-	domain "github.com/AndrewMislyuk/go-shop-backend/internal/domain"
+	domain "github.com/AndrewMislyuk/go-shop-backend/internal/transport/rest/domain"
 	gomock "github.com/golang/mock/gomock"
 )
 
@@ -198,44 +198,17 @@ func (m *MockFiles) EXPECT() *MockFilesMockRecorder {
 	return m.recorder
 }
 
-// Delete mocks base method.
-func (m *MockFiles) Delete() error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Delete")
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// Delete indicates an expected call of Delete.
-func (mr *MockFilesMockRecorder) Delete() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delete", reflect.TypeOf((*MockFiles)(nil).Delete))
-}
-
-// Get mocks base method.
-func (m *MockFiles) Get() error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Get")
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// Get indicates an expected call of Get.
-func (mr *MockFilesMockRecorder) Get() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Get", reflect.TypeOf((*MockFiles)(nil).Get))
-}
-
 // Upload mocks base method.
-func (m *MockFiles) Upload() error {
+func (m *MockFiles) Upload(file domain.File) (string, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Upload")
-	ret0, _ := ret[0].(error)
-	return ret0
+	ret := m.ctrl.Call(m, "Upload", file)
+	ret0, _ := ret[0].(string)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
 }
 
 // Upload indicates an expected call of Upload.
-func (mr *MockFilesMockRecorder) Upload() *gomock.Call {
+func (mr *MockFilesMockRecorder) Upload(file interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Upload", reflect.TypeOf((*MockFiles)(nil).Upload))
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Upload", reflect.TypeOf((*MockFiles)(nil).Upload), file)
 }

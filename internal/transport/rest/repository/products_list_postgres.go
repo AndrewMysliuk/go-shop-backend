@@ -6,7 +6,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/AndrewMislyuk/go-shop-backend/internal/domain"
+	"github.com/AndrewMislyuk/go-shop-backend/internal/transport/rest/domain"
 	"github.com/sirupsen/logrus"
 )
 

@@ -6,9 +6,9 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/AndrewMislyuk/go-shop-backend/internal/domain"
-	"github.com/AndrewMislyuk/go-shop-backend/internal/service"
-	mock_service "github.com/AndrewMislyuk/go-shop-backend/internal/service/mock"
+	"github.com/AndrewMislyuk/go-shop-backend/internal/transport/rest/domain"
+	"github.com/AndrewMislyuk/go-shop-backend/internal/transport/rest/service"
+	mock_service "github.com/AndrewMislyuk/go-shop-backend/internal/transport/rest/service/mock"
 	"github.com/gin-gonic/gin"
 	"github.com/golang/mock/gomock"
 	"github.com/magiconair/properties/assert"

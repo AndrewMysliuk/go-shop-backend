@@ -7,8 +7,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/AndrewMislyuk/go-shop-backend/internal/domain"
-	"github.com/AndrewMislyuk/go-shop-backend/internal/repository"
+	"github.com/AndrewMislyuk/go-shop-backend/internal/transport/rest/domain"
+	"github.com/AndrewMislyuk/go-shop-backend/internal/transport/rest/repository"
 	"github.com/AndrewMislyuk/go-shop-backend/pkg/storage"
 	"github.com/google/uuid"
 	"github.com/sirupsen/logrus"

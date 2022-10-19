@@ -6,21 +6,25 @@ import (
 	"strings"
 	"time"
 
-	"github.com/AndrewMislyuk/go-shop-backend/internal/domain"
-	"github.com/AndrewMislyuk/go-shop-backend/internal/repository"
+	"github.com/AndrewMislyuk/go-shop-backend/internal/transport/rest/domain"
+	"github.com/AndrewMislyuk/go-shop-backend/internal/transport/rest/repository"
 	"github.com/AndrewMislyuk/go-shop-backend/pkg/storage"
+	audit "github.com/AndrewMislyuk/go-shop-logger/pkg/domain"
 	"github.com/google/uuid"
+	"github.com/sirupsen/logrus"
 )
 
 type ProductsListService struct {
-	repo    repository.ProductsList
-	storage storage.Provider
+	repo        repository.ProductsList
+	storage     storage.Provider
+	auditClient AuditClient
 }
 
-func NewProductsListService(repo repository.ProductsList, storage storage.Provider) *ProductsListService {
+func NewProductsListService(repo repository.ProductsList, storage storage.Provider, auditClient AuditClient) *ProductsListService {
 	return &ProductsListService{
-		repo:    repo,
-		storage: storage,
+		repo:        repo,
+		storage:     storage,
+		auditClient: auditClient,
 	}
 }
 
@@ -32,7 +36,26 @@ func (s *ProductsListService) Create(list domain.CreateProductInput) (string, er
 }
 
 func (s *ProductsListService) GetAll() ([]domain.ProductsList, error) {
-	return s.repo.GetAll()
+	products, err := s.repo.GetAll()
+	if err != nil {
+		return []domain.ProductsList{}, err
+	}
+
+	// Start Test gRPC Logger -------------------------------------------------
+	if err := s.auditClient.SendLogRequest(context.TODO(), audit.LogItem{
+		Action:    audit.ACTION_GET,
+		Entity:    audit.ENTITY_PRODUCT,
+		EntityID:  uuid.New().String(),
+		Timestamp: time.Now(),
+	}); err != nil {
+		logrus.WithFields(logrus.Fields{
+			"method": "Product.GetAll",
+		}).Error("failed to send log request:", err)
+		return []domain.ProductsList{}, err
+	}
+	// End Test gRPC Logger   -------------------------------------------------
+
+	return products, nil
 }
 
 func (s *ProductsListService) GetById(listId string) (domain.ProductsList, error) {

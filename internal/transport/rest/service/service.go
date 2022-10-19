@@ -1,9 +1,12 @@
 package service
 
 import (
-	"github.com/AndrewMislyuk/go-shop-backend/internal/domain"
-	"github.com/AndrewMislyuk/go-shop-backend/internal/repository"
+	"context"
+
+	"github.com/AndrewMislyuk/go-shop-backend/internal/transport/rest/domain"
+	"github.com/AndrewMislyuk/go-shop-backend/internal/transport/rest/repository"
 	"github.com/AndrewMislyuk/go-shop-backend/pkg/storage"
+	audit "github.com/AndrewMislyuk/go-shop-logger/pkg/domain"
 )
 
 //go:generate mockgen -source=service.go -destination=mock/mock.go
@@ -26,16 +29,21 @@ type Files interface {
 	Upload(file domain.File) (string, error)
 }
 
+type AuditClient interface {
+	SendLogRequest(ctx context.Context, req audit.LogItem) error
+}
+
 type Service struct {
 	User
 	ProductsList
 	Files
+	AuditClient
 }
 
-func NewService(repos *repository.Repository, storage storage.Provider) *Service {
+func NewService(repos *repository.Repository, auditClient AuditClient, storage storage.Provider) *Service {
 	return &Service{
 		User:         NewAuthService(repos.Authorization),
-		ProductsList: NewProductsListService(repos.ProductsList, storage),
+		ProductsList: NewProductsListService(repos.ProductsList, storage, auditClient),
 		Files:        NewFileService(repos.Files, storage),
 	}
 }

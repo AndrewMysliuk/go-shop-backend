@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/AndrewMislyuk/go-shop-backend/internal/domain"
-	"github.com/AndrewMislyuk/go-shop-backend/internal/repository"
+	"github.com/AndrewMislyuk/go-shop-backend/internal/transport/rest/domain"
+	"github.com/AndrewMislyuk/go-shop-backend/internal/transport/rest/repository"
 	"github.com/golang-jwt/jwt"
 	"github.com/google/uuid"
 )
